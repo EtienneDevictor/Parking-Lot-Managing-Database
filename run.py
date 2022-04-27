@@ -1,3 +1,3 @@
-from app import app_obj
+from app import parking
 
-app_obj.run(debug=True)
+parking.run(debug=True)

@@ -15,4 +15,4 @@ def options():
     cur = conn.cursor()
     cur.execute("SELECT * FROM tasks")
     rows = cur.fetchall()
-    return render_template('options.html', rows=rows)
+    return render_template('options.html')
