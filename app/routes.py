@@ -13,6 +13,6 @@ def home():
 def options():
     conn = create_connection(basedir + '/Parking.db')
     cur = conn.cursor()
-    cur.execute("SELECT * FROM tasks")
+    cur.execute("Select * from PERMIT_TYPE_TABLE;")
     rows = cur.fetchall()
-    return render_template('options.html')
+    return render_template('options.html', rows=rows)
