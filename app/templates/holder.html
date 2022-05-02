@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %} 
+    <table>
+        <tr>
+            <th>School ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Type of Holder</th>
+            <th>Car Model</th>
+            <th>Year </th>
+            <th>Color </th>
+            <th>Type of Car</th>
+            <th>Lisense Plate</th>
+            <th>Start Date</th>
+            <th>End date</th>
+        </tr>
+        {% for row in rows %} 
+            <tr>
+                {% for col in row %} 
+                    <td> {{ col }} </td>
+                {% endfor %}
+            </tr>
+        {% endfor %} 
+    </table>
+{% endblock %} 

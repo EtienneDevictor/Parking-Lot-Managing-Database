@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %} 
+    <table>
+        <tr>
+            <th>Location</th>
+            <th>Permit Only Spaces</th>
+            <th>Total Number of Spaces</th>
+            <th>Average Number of People Parked per day</th>
+        </tr>
+        {% for row in rows %} 
+            <tr>
+                {% for col in row %} 
+                    <td> {{ col }} </td>
+                {% endfor %}
+            </tr>
+        {% endfor %} 
+    </table>
+{% endblock %} 

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %} 
+    <table>
+        <tr>
+            <th>Pass ID</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Arrival Time</th>
+            <th>Departure Time</th>
+            <th>Hourly Rate</th>
+            <th>Total Price</th>
+        </tr>
+        {% for row in rows %} 
+            <tr>
+                {% for col in row %} 
+                    <td> {{ col }} </td>
+                {% endfor %}
+            </tr>
+        {% endfor %} 
+    </table>
+{% endblock %} 
