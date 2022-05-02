@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %} 
+<form action = "" method = "POST" novalidate >
+    {{ form.hidden_tag() }}
+<p>
+        Average over 
+        {{ form.criteria(size=32)}} &nbsp number of months &nbsp {{ form.search() }}
+</p>
+</form>
     <table>
         <tr>
             <th>Location</th>

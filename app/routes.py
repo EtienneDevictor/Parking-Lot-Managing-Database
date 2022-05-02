@@ -2,7 +2,7 @@ from app import parking, create_connection, basedir
 import app 
 import os 
 from app.forms import *
-from flask import render_template
+from flask import flash, render_template
 
 
 @parking.route('/')
@@ -17,20 +17,25 @@ def options():
     rows = cur.fetchall()
     return render_template('options.html', rows=rows)
 
-@parking.route('/PermitHolder')
+@parking.route('/PermitHolder' , methods=['GET', 'POST'])
 def holder():
     form = IntForm()
+    var = '-1'
+    if form.validate_on_submit():
+        var = form.criteria.data
     conn = create_connection(basedir + '/Parking.db')
     cur = conn.cursor()
-    cur.execute("""Select p.ID, p.FIRST_NAME, p.LAST_NAME, p.EMAIL, p.TYPE_OF_HOLDER , c.MODEL, c.YEAR, c.COLOR, c.TYPE_OF_CAR, c.LISENCE_PLATE, m.START_DATE, date(m.START_DATE, '+'||t.NUMBER_OF_MONTHS||' month') as END_DATE, t.DAYS_A_WEEK 
+    cur.execute(f"""Select p.ID, p.FIRST_NAME, p.LAST_NAME, p.EMAIL, p.TYPE_OF_HOLDER , c.MODEL, c.YEAR, c.COLOR, c.TYPE_OF_CAR, c.LISENCE_PLATE, m.START_DATE, date(m.START_DATE, '+'||t.NUMBER_OF_MONTHS||' month') as END_DATE, t.DAYS_A_WEEK 
                     from PERMIT_HOLDER_TABLE as p 
                     left join CAR_TABLE as c on c.SCHOOL_FK_ID = p.ID
                     left join Permit_Table as m on m.SCHOOL_FK_ID = p.ID
-                    left join PERMIT_TYPE_TABLE as t on m.PERMIT_TYPE_FK = t.PERMIT_TYPE_ID""")
+                    left join PERMIT_TYPE_TABLE as t on m.PERMIT_TYPE_FK = t.PERMIT_TYPE_ID
+                    where p.id = {str(var)}
+                    order by end_date desc""")
     rows = cur.fetchall()
     return render_template('holder.html', rows=rows, form=form)
 
-@parking.route('/ParkingManager')
+@parking.route('/ParkingManager', methods=['GET', 'POST'])
 def manager():
     form = IntForm()
     conn = create_connection(basedir + '/Parking.db')
@@ -43,12 +48,12 @@ def manager():
     rows = cur.fetchall()
     return render_template('manager.html', rows = rows, form = form)
 
-@parking.route('/MeterMaid')
+@parking.route('/MeterMaid', methods=['GET', 'POST'])
 def maid():
     form = IntForm()
     conn = create_connection(basedir + '/Parking.db')
     cur = conn.cursor()
-    cur.execute("""Select c.Model, c.Year, c.color, c.type_of_car, c.lisence_plate, m.start_date, date(m.START_DATE, '+'||t.NUMBER_OF_MONTHS||' month') as END_DATE
+    cur.execute("""Select c.Model, c.Year, c.color, c.type_of_car, c.lisence_plate, date(m.START_DATE, '+'||t.NUMBER_OF_MONTHS||' month') as END_DATE
                         from PERMIT_HOLDER_TABLE as p 
                         left join CAR_TABLE as c on c.SCHOOL_FK_ID = p.ID
                         left join Permit_Table as m on m.SCHOOL_FK_ID = p.ID
@@ -59,7 +64,7 @@ def maid():
     rows = cur.fetchall()
     return render_template('maid.html', rows=rows, form = form)
 
-@parking.route('/DailyPass')
+@parking.route('/DailyPass', methods=['GET', 'POST'])
 def daily():
     form = IntForm()
     conn = create_connection(basedir + '/Parking.db')

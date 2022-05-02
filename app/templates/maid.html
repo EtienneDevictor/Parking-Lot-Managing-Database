@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %} 
+<form action = "" method = "POST" novalidate >
+    {{ form.hidden_tag() }}
+<p>
+        License Plate
+        {{ form.criteria(size=32)}} &nbsp {{ form.search() }}
+</p>
+</form>
     <table>
         <tr>
             <th>Model</th>

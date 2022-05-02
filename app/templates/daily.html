@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
+
+
 {% block content %} 
+<form action = "" method = "POST" novalidate >
+    {{ form.hidden_tag() }}
+<p>
+        Daily Pass ID
+        {{ form.criteria(size=32)}} &nbsp {{ form.search() }}
+</p>
+</form>
     <table>
         <tr>
             <th>Pass ID</th>

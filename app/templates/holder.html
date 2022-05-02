@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %} 
+<form action = "" method = "POST" enctype="multipart/form-data" novalidate >
+    {{ form.hidden_tag() }}
+<p>
+        School ID
+        {{ form.criteria(size=32)}} &nbsp {{ form.search() }}
+</p>
+</form>
     <table>
         <tr>
             <th>School ID</th>
