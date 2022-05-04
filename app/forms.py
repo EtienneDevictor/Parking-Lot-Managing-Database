@@ -4,6 +4,7 @@ from wtforms import validators
 from wtforms.validators import DataRequired, NumberRange
 
 class IntForm(FlaskForm):
-    criteria = IntegerField('School Id', validators=[DataRequired()])
+    criteria = IntegerField('School Id', validators=[])
+    strCriteria = StringField('string', validators=[])
     search    =  SubmitField('Search')
     
