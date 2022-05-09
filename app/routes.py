@@ -1,6 +1,4 @@
 from app import parking, create_connection, basedir
-import app 
-import os 
 from app.forms import *
 from flask import flash, render_template
 
@@ -23,6 +21,7 @@ def holder():
     var = '-1'
     conn = create_connection(basedir + '/Parking.db')
     cur = conn.cursor()
+    rows = list()
     if form.validate_on_submit():
         var = form.criteria.data
         cur.execute(f"""Select p.ID, p.FIRST_NAME, p.LAST_NAME, p.EMAIL, p.TYPE_OF_HOLDER , c.MODEL, c.YEAR, c.COLOR, c.TYPE_OF_CAR, c.LISENCE_PLATE, m.START_DATE, date(m.START_DATE, '+'||t.NUMBER_OF_MONTHS||' month') as END_DATE, t.DAYS_A_WEEK 
