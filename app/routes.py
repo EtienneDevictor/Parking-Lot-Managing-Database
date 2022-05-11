@@ -63,15 +63,23 @@ def maid():
         var = form.strCriteria.data
         cur.execute(f"""Select c.Model, c.Year, c.color, c.type_of_car, c.lisence_plate, date(m.START_DATE, '+'||t.NUMBER_OF_MONTHS||' month') as END_DATE
                         from PERMIT_HOLDER_TABLE as p 
-                        left join CAR_TABLE as c on c.SCHOOL_FK_ID = p.ID
-                        left join Permit_Table as m on m.SCHOOL_FK_ID = p.ID
+                        left join CAR_TABLE as c on c.SCHOOL_FK_ID = p.ID_PK
+                        left join Permit_Table as m on m.SCHOOL_FK_ID = p.ID_PK
                         left join PERMIT_TYPE_TABLE as t on m.PERMIT_TYPE_FK = t.PERMIT_TYPE_ID
                         where c.lisence_plate = '{var}' and END_DATE >= CURRENT_DATE
                         order by end_date DESC
                         limit 1;""")
         rows = cur.fetchall()
         if len(rows) == 0:
-            flash(f'No permits belong to license plate number {var}')
+            cur.execute(f"""Select c.Model, c.Year, c.color, c.type_of_car, c.lisence_plate, d.Date_FK
+                        from DAY_PASS_TABLE as d
+                        join Permit_Holder_table as p on p.id_pk = d.SCHOOL_ID_FK
+                        Join CAR_TABLE as c on p.id_pk = c.SCHOOL_FK_ID
+                        where d.date_fk = '2021-06-17'
+                        and c.LISENCE_PLATE = '{var}'; """)
+            rows = cur.fetchall()
+            if len(rows) == 0:
+                flash(f'No permits belong to license plate number {var}')
     return render_template('maid.html', rows=rows, form = form)
 
 @parking.route('/DailyPass', methods=['GET', 'POST'])
